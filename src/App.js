@@ -2,16 +2,15 @@ import './App.css'
 import { useState } from 'react'
 import { useMediaQuery, Flex, Button, Box } from '@chakra-ui/react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import {
-   LoginPage,
-   JoinPage,
-   CompanyPage,
-   QuestionsPage,
-   TeamPage,
-   ProfilePage,
-   Header,
-   DesktopSidebar,
-} from './imports'
+
+import LoginPage from './pages/LoginPage'
+import JoinPage from './pages/JoinPage'
+import CompanyPage from './pages/CompanyPage'
+import QuestionsPage from './pages/QuestionsPage'
+import TeamPage from './pages/TeamPage'
+import ProfilePage from './pages/ProfilePage'
+import Header from './components/Header'
+import DesktopSidebar from './components/DesktopSidebar'
 
 function App() {
    const [isLargerThan768] = useMediaQuery('(min-width:768px)')
