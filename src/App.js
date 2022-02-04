@@ -1,8 +1,5 @@
-import './App.css'
-import { useState } from 'react'
-import { useMediaQuery, Flex, Button, Box } from '@chakra-ui/react'
+import { useMediaQuery, Flex, Box } from '@chakra-ui/react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-
 import LoginPage from './pages/LoginPage'
 import JoinPage from './pages/JoinPage'
 import CompanyPage from './pages/CompanyPage'
@@ -14,13 +11,13 @@ import DesktopSidebar from './components/DesktopSidebar'
 
 function App() {
    const [isLargerThan768] = useMediaQuery('(min-width:768px)')
-   const [guest, setQuest] = useState(false)
+   // console.log(process.env.REACT_APP_API_URL)
 
    return (
       <Box position='relative' minH='100vh'>
          <Header />
          <Flex>
-            {isLargerThan768 && !guest && <DesktopSidebar />}
+            {isLargerThan768 && <DesktopSidebar />}
             <Routes>
                <Route path='' element={<Navigate to='login' />} />
                <Route path='login' element={<LoginPage />} />
@@ -31,16 +28,6 @@ function App() {
                <Route path='profile' element={<ProfilePage />} />
             </Routes>
          </Flex>
-         <Button
-            position='absolute'
-            bottom='0'
-            right='0'
-            onClick={() => {
-               setQuest((prevState) => !prevState)
-            }}
-         >
-            Guest
-         </Button>
       </Box>
    )
 }
