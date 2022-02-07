@@ -8,24 +8,33 @@ import TeamPage from './pages/TeamPage'
 import ProfilePage from './pages/ProfilePage'
 import Header from './components/Header'
 import DesktopSidebar from './components/DesktopSidebar'
+import { useMultipleContexts } from './hooks/multiple-context'
 
 function App() {
    const [isLargerThan768] = useMediaQuery('(min-width:768px)')
-   // console.log(process.env.REACT_APP_API_URL)
+
+   const { isLoggedIn } = useMultipleContexts()
 
    return (
-      <Box position='relative' minH='100vh'>
+      <Box
+         position='relative'
+         minH='100vh'
+         padding='1rem'
+         margin='auto'
+         maxW='1240px'
+      >
          <Header />
-         <Flex>
-            {isLargerThan768 && <DesktopSidebar />}
+         <Flex gap='0.8rem'>
+            {isLargerThan768 && isLoggedIn && <DesktopSidebar />}
             <Routes>
                <Route path='' element={<Navigate to='login' />} />
-               <Route path='login' element={<LoginPage />} />
+               {!isLoggedIn && <Route path='login' element={<LoginPage />} />}
                <Route path='join' element={<JoinPage />} />
                <Route path='company' element={<CompanyPage />} />
                <Route path='questions' element={<QuestionsPage />} />
                <Route path='team' element={<TeamPage />} />
                <Route path='profile' element={<ProfilePage />} />
+               <Route path='*' element={<Navigate to='team' />} />
             </Routes>
          </Flex>
       </Box>

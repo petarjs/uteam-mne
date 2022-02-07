@@ -1,11 +1,21 @@
 import React from 'react'
-import { Flex, Box, useMediaQuery, Link } from '@chakra-ui/react'
+import { Flex, useMediaQuery, Link, Heading } from '@chakra-ui/react'
 import { Link as ReactLink } from 'react-router-dom'
 import Drawer from './Drawer'
 import ProfileMenu from './ProfileMenu'
+import { useMultipleContexts } from '../hooks/multiple-context'
 
 const Header = () => {
    const [isLargerThan768] = useMediaQuery('(min-width:768px)')
+
+   const { isLoggedIn, logout, userProfile, unsetUserProfile } =
+      useMultipleContexts()
+
+   const logoutHandler = () => {
+      logout()
+      unsetUserProfile()
+   }
+
    return (
       <Flex
          height='3rem'
@@ -13,7 +23,11 @@ const Header = () => {
          justifyContent='space-between'
          width='100%'
          p='1rem'
-         bgColor='gray.100'
+         bgColor='#2f3437'
+         backdropFilter='blur(10px)'
+         mb='0.8rem'
+         borderRadius='0.5rem'
+         boxShadow='md'
       >
          {!isLargerThan768 && (
             <Drawer title='Menu'>
@@ -34,16 +48,34 @@ const Header = () => {
                </Link>
             </Drawer>
          )}
-         <Box>Logo</Box>
+         <ReactLink to='/'>
+            <Heading as='h1' size='md'>
+               uTeam
+            </Heading>
+         </ReactLink>
 
-         <Flex alignItems='center' justifyContent='space-between'>
+         <Flex
+            alignItems='center'
+            justifyContent='space-between'
+            fontWeight='semibold'
+         >
             {isLargerThan768 ? (
                <Flex alignItems='center' justifyContent='space-between'>
-                  <Link as={ReactLink} to='login' mr='1rem'>
-                     Login
+                  <Link as={ReactLink} to={isLoggedIn ? '/profile' : '/login'}>
+                     {isLoggedIn && userProfile
+                        ? `${userProfile.username}`
+                        : 'Login'}
                   </Link>
-                  <Link as={ReactLink} to='join'>
-                     Register
+                  <Link
+                     px='1rem'
+                     as={ReactLink}
+                     to={isLoggedIn ? '/login' : '/join'}
+                  >
+                     {isLoggedIn ? (
+                        <span onClick={logoutHandler}>Logout</span>
+                     ) : (
+                        'Register'
+                     )}
                   </Link>
                </Flex>
             ) : (
