@@ -63,7 +63,7 @@ const Header = () => {
                <Flex alignItems='center' justifyContent='space-between'>
                   <Link as={ReactLink} to={isLoggedIn ? '/profile' : '/login'}>
                      {isLoggedIn && userProfile
-                        ? `${userProfile.username}`
+                        ? `${userProfile.name}`
                         : 'Login'}
                   </Link>
                   <Link

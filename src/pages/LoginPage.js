@@ -5,7 +5,7 @@ import styles from '../styles/LoginPage.module.css'
 import { Link as ReactLink, useNavigate } from 'react-router-dom'
 import { loginUser } from '../api/auth'
 import { darken } from '@chakra-ui/theme-tools'
-
+import { getProfileData } from '../api/profile'
 import { useMultipleContexts } from '../hooks/multiple-context'
 
 const LoginPage = () => {
@@ -30,11 +30,13 @@ const LoginPage = () => {
             setErrorLogin(response.error)
             setLoading(false)
          } else {
+            const res = await getProfileData(response.user.id)
             login(response.jwt)
-            setUserProfile({ username: response.user.username })
+            setUserProfile({ id: res.id, name: res.name })
             navigate('/team')
          }
-      } catch {
+      } catch (e) {
+         console.log(e)
          setErrorLogin('Server error, please try again later')
          setLoading(false)
       }

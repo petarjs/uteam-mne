@@ -1,15 +1,13 @@
 import API from './axios'
 
-export const loginUser = async (data) => {
+export const getProfileData = async (userId) => {
    let response = {}
-   await API.post('/auth/local', {
-      ...data,
-   })
+   await API.get(`/profiles?filters[user][id][$eq]=${userId}&populate=*`)
       .then((res) => {
          response = {
             ok: true,
-            jwt: res.data.jwt,
-            user: res.data.user,
+            id: res.data.data[0].id,
+            name: res.data.data[0].attributes.name,
          }
       })
       .catch((e) => {
