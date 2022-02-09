@@ -8,12 +8,12 @@ import TeamPage from './pages/TeamPage'
 import ProfilePage from './pages/ProfilePage'
 import Header from './components/Header'
 import DesktopSidebar from './components/DesktopSidebar'
-import { useMultipleContexts } from './hooks/multiple-context'
+import { useAuthContext } from './hooks/auth-context'
 
 function App() {
    const [isLargerThan768] = useMediaQuery('(min-width:768px)')
 
-   const { isLoggedIn } = useMultipleContexts()
+   const { isLoggedIn } = useAuthContext()
 
    return (
       <Box

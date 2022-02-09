@@ -11,11 +11,9 @@ const API = axios.create({
 })
 
 API.interceptors.request.use((config) => {
-   return JSON.parse(localStorage.getItem('auth'))
-      ? (config.headers['Authorization'] = `Bearer ${JSON.parse(
-           localStorage.getItem('auth')
-        )}`)
-      : config
+   const token = JSON.parse(localStorage.getItem('user')).jwt
+   if (token) config.headers.Authorization = token
+   return config
 })
 
 export default API

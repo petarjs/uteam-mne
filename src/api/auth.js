@@ -1,19 +1,11 @@
 import API from './axios'
 
 export const loginUser = async (data) => {
-   let response = {}
-   await API.post('/auth/local', {
-      ...data,
-   })
-      .then((res) => {
-         response = {
-            ok: true,
-            jwt: res.data.jwt,
-            user: res.data.user,
-         }
-      })
-      .catch((e) => {
-         response = { ok: false, error: e.response.data.error.message }
-      })
-   return response
+   try {
+      const response = await API.post('/auth/local', data)
+      const { jwt, user } = response.data
+      return { jwt, user }
+   } catch (ex) {
+      throw Error(ex?.response?.data?.error?.message ?? 'Unknown error')
+   }
 }

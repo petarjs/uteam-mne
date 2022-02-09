@@ -1,41 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 
-const ProfileContext = React.createContext({
-   userProfile: null,
-   setUserProfile: () => {},
-   unsetUserProfile: () => {},
-})
+const ProfileContext = React.createContext(undefined)
 
 export const ProfileContextProvider = (props) => {
    const [profile, setProfile] = useState(null)
 
-   const setUserProfile = (profile) => {
+   const setUserProfile = useCallback((profile) => {
       setProfile(profile)
-   }
-
-   const unsetUserProfile = () => {
-      setProfile(null)
-   }
-
-   useEffect(() => {
-      try {
-         const existingProfile = JSON.parse(localStorage.getItem('profile'))
-         if (existingProfile) {
-            setProfile(existingProfile)
-         }
-      } catch (e) {
-         console.log(e)
-      }
    }, [])
 
-   useEffect(() => {
-      localStorage.setItem('profile', JSON.stringify(profile))
-   }, [profile])
-
    return (
-      <ProfileContext.Provider
-         value={{ userProfile: profile, setUserProfile, unsetUserProfile }}
-      >
+      <ProfileContext.Provider value={{ userProfile: profile, setUserProfile }}>
          {props.children}
       </ProfileContext.Provider>
    )

@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from 'react'
+import { useProfileContext } from '../hooks/profile-context'
+import { getProfileData } from '../api/profile'
 
-const AuthContext = React.createContext({
-   jwt: '',
-   isLoggedIn: false,
-   login: (token) => {},
-   logout: () => {},
-})
+const AuthContext = React.createContext(undefined)
 
 export const AuthContextProvider = (props) => {
-   const [jwt, setJwt] = useState(null)
+   const [user, setUser] = useState({})
+   const { setUserProfile } = useProfileContext()
 
-   const isLoggedIn = !!jwt
+   const isLoggedIn = !!user.jwt
 
-   const loginHandler = (token) => {
-      setJwt(token)
+   const loginHandler = ({ jwt, user }) => {
+      setUser({
+         jwt,
+         id: user.id,
+      })
    }
 
    const logoutHandler = () => {
-      setJwt(null)
-      localStorage.removeItem('auth')
+      setUser({
+         jwt: null,
+         id: null,
+      })
    }
 
    useEffect(() => {
       try {
-         const existingJwt = JSON.parse(localStorage.getItem('auth'))
-         if (existingJwt) {
-            setJwt(existingJwt)
+         const existingUser = JSON.parse(localStorage.getItem('user'))
+         if (existingUser) {
+            setUser(existingUser)
          }
       } catch (e) {
          console.log(e)
@@ -33,12 +36,27 @@ export const AuthContextProvider = (props) => {
    }, [])
 
    useEffect(() => {
-      localStorage.setItem('auth', JSON.stringify(jwt))
-   }, [jwt])
+      localStorage.setItem('user', JSON.stringify(user))
+
+      async function fetchProfile() {
+         try {
+            const userProfileData = await getProfileData(user.id)
+            setUserProfile(userProfileData)
+         } catch (e) {
+            setUserProfile(null)
+         }
+      }
+      fetchProfile()
+   }, [user, setUserProfile])
 
    return (
       <AuthContext.Provider
-         value={{ jwt, isLoggedIn, login: loginHandler, logout: logoutHandler }}
+         value={{
+            user,
+            isLoggedIn,
+            login: loginHandler,
+            logout: logoutHandler,
+         }}
       >
          {props.children}
       </AuthContext.Provider>

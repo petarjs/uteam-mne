@@ -3,17 +3,17 @@ import { Flex, useMediaQuery, Link, Heading } from '@chakra-ui/react'
 import { Link as ReactLink } from 'react-router-dom'
 import Drawer from './Drawer'
 import ProfileMenu from './ProfileMenu'
-import { useMultipleContexts } from '../hooks/multiple-context'
+import { useAuthContext } from '../hooks/auth-context'
+import { useProfileContext } from '../hooks/profile-context'
 
 const Header = () => {
    const [isLargerThan768] = useMediaQuery('(min-width:768px)')
 
-   const { isLoggedIn, logout, userProfile, unsetUserProfile } =
-      useMultipleContexts()
+   const { isLoggedIn, logout } = useAuthContext()
+   const { userProfile } = useProfileContext()
 
    const logoutHandler = () => {
       logout()
-      unsetUserProfile()
    }
 
    return (

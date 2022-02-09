@@ -10,15 +10,15 @@ import { ProfileContextProvider } from './context/ProfileContext'
 
 ReactDOM.render(
    <React.StrictMode>
-      <AuthContextProvider>
-         <ProfileContextProvider>
+      <ProfileContextProvider>
+         <AuthContextProvider>
             <ChakraProvider theme={theme}>
                <BrowserRouter>
                   <App />
                </BrowserRouter>
             </ChakraProvider>
-         </ProfileContextProvider>
-      </AuthContextProvider>
+         </AuthContextProvider>
+      </ProfileContextProvider>
    </React.StrictMode>,
    document.getElementById('root')
 )

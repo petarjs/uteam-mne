@@ -5,8 +5,7 @@ import styles from '../styles/LoginPage.module.css'
 import { Link as ReactLink, useNavigate } from 'react-router-dom'
 import { loginUser } from '../api/auth'
 import { darken } from '@chakra-ui/theme-tools'
-import { getProfileData } from '../api/profile'
-import { useMultipleContexts } from '../hooks/multiple-context'
+import { useAuthContext } from '../hooks/auth-context'
 
 const LoginPage = () => {
    const emailInputRef = useRef()
@@ -14,7 +13,7 @@ const LoginPage = () => {
    const [errorLogin, setErrorLogin] = useState('')
    const [loading, setLoading] = useState(false)
    const navigate = useNavigate()
-   const { login, setUserProfile } = useMultipleContexts()
+   const { login } = useAuthContext()
 
    const handleFormSubmit = async (e) => {
       e.preventDefault()
@@ -25,19 +24,10 @@ const LoginPage = () => {
             identifier: emailInputRef.current.value.trim(),
             password: passwordInputRef.current.value.trim(),
          })
-
-         if (!response.ok) {
-            setErrorLogin(response.error)
-            setLoading(false)
-         } else {
-            const res = await getProfileData(response.user.id)
-            login(response.jwt)
-            setUserProfile({ id: res.id, name: res.name })
-            navigate('/team')
-         }
+         login(response)
+         navigate('/team')
       } catch (e) {
-         console.log(e)
-         setErrorLogin('Server error, please try again later')
+         setErrorLogin(e.message)
          setLoading(false)
       }
    }
