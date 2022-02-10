@@ -61,22 +61,29 @@ const Header = () => {
          >
             {isLargerThan768 ? (
                <Flex alignItems='center' justifyContent='space-between'>
-                  <Link as={ReactLink} to={isLoggedIn ? '/profile' : '/login'}>
-                     {isLoggedIn && userProfile
-                        ? `${userProfile.name}`
-                        : 'Login'}
-                  </Link>
-                  <Link
-                     px='1rem'
-                     as={ReactLink}
-                     to={isLoggedIn ? '/login' : '/join'}
-                  >
-                     {isLoggedIn ? (
-                        <span onClick={logoutHandler}>Logout</span>
-                     ) : (
-                        'Register'
-                     )}
-                  </Link>
+                  {isLoggedIn ? (
+                     <Link as={ReactLink} to='/profile'>
+                        {userProfile?.name}
+                     </Link>
+                  ) : (
+                     <Link as={ReactLink} to='/login'>
+                        Login
+                     </Link>
+                  )}
+                  {isLoggedIn ? (
+                     <Link
+                        px='1rem'
+                        as={ReactLink}
+                        to='/login'
+                        onClick={logoutHandler}
+                     >
+                        Logout
+                     </Link>
+                  ) : (
+                     <Link px='1rem' as={ReactLink} to='/join'>
+                        Register
+                     </Link>
+                  )}
                </Flex>
             ) : (
                <ProfileMenu />

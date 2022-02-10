@@ -11,8 +11,16 @@ const API = axios.create({
 })
 
 API.interceptors.request.use((config) => {
-   const token = JSON.parse(localStorage.getItem('user')).jwt
-   if (token) config.headers.Authorization = token
+   const user = localStorage.user
+   if (!user) {
+      return config
+   }
+
+   const parsedUser = JSON.parse(user)
+   if (parsedUser?.jwt) {
+      config.headers.Authorization = parsedUser.jwt
+   }
+
    return config
 })
 

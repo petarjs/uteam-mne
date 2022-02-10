@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useProfileContext } from '../hooks/profile-context'
-import { getProfileData } from '../api/profile'
 
 const AuthContext = React.createContext(undefined)
 
@@ -30,23 +29,12 @@ export const AuthContextProvider = (props) => {
          if (existingUser) {
             setUser(existingUser)
          }
-      } catch (e) {
-         console.log(e)
-      }
+      } catch {}
    }, [])
 
    useEffect(() => {
       localStorage.setItem('user', JSON.stringify(user))
-
-      async function fetchProfile() {
-         try {
-            const userProfileData = await getProfileData(user.id)
-            setUserProfile(userProfileData)
-         } catch (e) {
-            setUserProfile(null)
-         }
-      }
-      fetchProfile()
+      setUserProfile(user.id)
    }, [user, setUserProfile])
 
    return (
