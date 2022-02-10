@@ -9,16 +9,16 @@ import { AuthContextProvider } from './context/AuthContext'
 import { ProfileContextProvider } from './context/ProfileContext'
 
 ReactDOM.render(
-   <React.StrictMode>
-      <ProfileContextProvider>
-         <AuthContextProvider>
-            <ChakraProvider theme={theme}>
-               <BrowserRouter>
-                  <App />
-               </BrowserRouter>
-            </ChakraProvider>
-         </AuthContextProvider>
-      </ProfileContextProvider>
-   </React.StrictMode>,
-   document.getElementById('root')
+  <React.StrictMode>
+    <ProfileContextProvider>
+      <AuthContextProvider>
+        <ChakraProvider theme={theme}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ChakraProvider>
+      </AuthContextProvider>
+    </ProfileContextProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
 )

@@ -4,51 +4,52 @@ import { useProfileContext } from '../hooks/profile-context'
 const AuthContext = React.createContext(undefined)
 
 export const AuthContextProvider = (props) => {
-   const [user, setUser] = useState({})
-   const { setUserProfile } = useProfileContext()
+  const [user, setUser] = useState({})
+  const { setUserProfile } = useProfileContext()
 
-   const isLoggedIn = !!user.jwt
+  const isLoggedIn = !!user.jwt
 
-   const loginHandler = ({ jwt, user }) => {
-      setUser({
-         jwt,
-         id: user.id,
-      })
-   }
+  const loginHandler = ({ jwt, user }) => {
+    setUser({
+      jwt,
+      id: user.id
+    })
+  }
 
-   const logoutHandler = () => {
-      setUser({
-         jwt: null,
-         id: null,
-      })
-   }
+  const logoutHandler = () => {
+    setUser({
+      jwt: null,
+      id: null
+    })
+  }
 
-   useEffect(() => {
-      try {
-         const existingUser = JSON.parse(localStorage.getItem('user'))
-         if (existingUser) {
-            setUser(existingUser)
-         }
-      } catch {}
-   }, [])
+  useEffect(() => {
+    try {
+      const existingUser = JSON.parse(localStorage.getItem('user'))
+      if (existingUser) {
+        setUser(existingUser)
+      }
+    } catch {
+      console.log()
+    }
+  }, [])
 
-   useEffect(() => {
-      localStorage.setItem('user', JSON.stringify(user))
-      setUserProfile(user.id)
-   }, [user, setUserProfile])
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user))
+    setUserProfile(user.id)
+  }, [user, setUserProfile])
 
-   return (
-      <AuthContext.Provider
-         value={{
-            user,
-            isLoggedIn,
-            login: loginHandler,
-            logout: logoutHandler,
-         }}
-      >
-         {props.children}
-      </AuthContext.Provider>
-   )
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoggedIn,
+        login: loginHandler,
+        logout: logoutHandler
+      }}>
+      {props.children}
+    </AuthContext.Provider>
+  )
 }
 
 export default AuthContext
