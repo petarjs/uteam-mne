@@ -9,7 +9,8 @@ import {
    DrawerHeader,
    DrawerBody,
 } from '@chakra-ui/react'
-import { GiHamburgerMenu } from 'react-icons/gi'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const Drawer = (props) => {
    const { isOpen, onOpen, onClose } = useDisclosure()
@@ -18,9 +19,9 @@ const Drawer = (props) => {
       <>
          <IconButton
             ref={btnRef}
-            colorScheme='gray'
             onClick={onOpen}
-            icon={<GiHamburgerMenu />}
+            icon={<FontAwesomeIcon icon={faBars} size='lg' />}
+            bgColor='transparent'
          />
          <ChakraDrawer
             size='xs'
@@ -30,7 +31,7 @@ const Drawer = (props) => {
             finalFocusRef={btnRef}
          >
             <DrawerOverlay />
-            <DrawerContent>
+            <DrawerContent bgColor='#2f3437'>
                <DrawerCloseButton />
                <DrawerHeader>{props.title}</DrawerHeader>
                <DrawerBody
