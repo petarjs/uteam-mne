@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import styles from './FormInput.module.css'
 
 const FormInput = forwardRef(
-   ({ type, placeholder, id, label, required }, ref) => {
+   ({ type, placeholder, id, label, required, autoComplete }, ref) => {
       return (
          <div>
             <label htmlFor={id}>{label}</label>
@@ -11,7 +11,7 @@ const FormInput = forwardRef(
                placeholder={placeholder}
                className={styles.input}
                ref={ref}
-               autoComplete='current-password'
+               autoComplete={autoComplete}
                required={required}
             />
          </div>

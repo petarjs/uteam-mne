@@ -55,6 +55,7 @@ const LoginPage = () => {
                label='Email'
                ref={emailInputRef}
                required={true}
+               autoComplete='username'
             />
             <FormInput
                type='password'
@@ -62,6 +63,7 @@ const LoginPage = () => {
                label='Password'
                ref={passwordInputRef}
                required={true}
+               autoComplete='current-password'
             />
             <Box color='#f56a68'>{errorLogin}</Box>
             <Flex justifyContent='space-between' alignItems='center'>
