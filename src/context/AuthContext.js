@@ -36,7 +36,9 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user))
-    setUserProfile(user.id)
+    if (user.id) {
+      setUserProfile(user.id)
+    }
   }, [user, setUserProfile])
 
   return (

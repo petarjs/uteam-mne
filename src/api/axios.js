@@ -18,7 +18,7 @@ API.interceptors.request.use((config) => {
 
   const parsedUser = JSON.parse(user)
   if (parsedUser?.jwt) {
-    config.headers.Authorization = parsedUser.jwt
+    config.headers.Authorization = `Bearer ${parsedUser.jwt}`
   }
 
   return config
