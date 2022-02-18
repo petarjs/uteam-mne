@@ -25,7 +25,8 @@ const LoginPage = () => {
         identifier: emailInputRef.current.value.trim(),
         password: passwordInputRef.current.value.trim()
       })
-      login(response)
+      const { jwt } = response
+      login(jwt)
       navigate('/team')
     } catch (e) {
       setErrorLogin(e.message)

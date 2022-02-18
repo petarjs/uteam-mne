@@ -8,15 +8,15 @@ import FormWrapper from '../components/UI/FormWrapper'
 import { useForm } from 'react-hook-form'
 import { createProfile, uploadProfileImage } from '../api/profile'
 import { createUser } from '../api/auth'
-import { useAuthContext } from '../hooks/auth-context'
 import { createCompany } from '../api/company'
+import { useAuthContext } from '../hooks/auth-context'
 
 const RegisterPage = () => {
   const { register, handleSubmit } = useForm()
   const [loading, setLoading] = useState()
   const [errorRegister, setErrorRegister] = useState('')
-  const { login } = useAuthContext()
   const navigate = useNavigate()
+  const { login } = useAuthContext()
   const onSubmit = async (data) => {
     setLoading(true)
     try {
@@ -26,22 +26,23 @@ const RegisterPage = () => {
         password: data.password
       })
 
-      const companyId = await createCompany({ name: `${data.name}'s company` }, user.jwt)
+      localStorage.setItem('token', user.jwt)
 
-      const profileId = await createProfile({
+      const companyId = await createCompany({ name: `${data.name}'s company` }, user.jwt)
+      const photoId = await uploadProfileImage(data.profileImg[0])
+
+      await createProfile({
         status: 'pending',
         name: data.name,
-        profilePhoto: null,
+        profilePhoto: photoId,
         user: `${user.id}`,
         company: companyId,
         answers: null
       })
 
-      await uploadProfileImage(profileId, data.profileImg[0])
-      login({ jwt: user.jwt, user: user })
-      navigate('/')
+      login(user.jwt)
+      navigate('/team')
     } catch (e) {
-      console.log(e)
       setErrorRegister(e.message)
       setLoading(false)
     }

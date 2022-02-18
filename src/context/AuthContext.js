@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { useProfileContext } from '../hooks/profile-context'
+import { getCurrentUser } from '../api/auth'
 
 const AuthContext = React.createContext(undefined)
 
 export const AuthContextProvider = (props) => {
-  const [user, setUser] = useState({})
+  const [token, setToken] = useState('')
   const { setUserProfile } = useProfileContext()
 
-  const isLoggedIn = !!user.jwt
+  const isLoggedIn = !!token
 
-  const loginHandler = ({ jwt, user }) => {
-    setUser({
-      jwt,
-      id: user.id
-    })
+  const loginHandler = async (jwt) => {
+    setToken(jwt)
   }
 
   const logoutHandler = () => {
-    setUser({
-      jwt: null,
-      id: null
-    })
+    setToken('')
   }
 
   useEffect(() => {
     try {
-      const existingUser = JSON.parse(localStorage.getItem('user'))
-      if (existingUser) {
-        setUser(existingUser)
+      const existingToken = localStorage.getItem('token')
+      if (existingToken) {
+        setToken(existingToken)
       }
     } catch {
       console.log()
@@ -35,16 +30,19 @@ export const AuthContextProvider = (props) => {
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user))
-    if (user.id) {
-      setUserProfile(user.id)
+    localStorage.setItem('token', token)
+    if (token) {
+      ;(async () => {
+        const { id } = await getCurrentUser()
+        setUserProfile(id)
+      })()
     }
-  }, [user, setUserProfile])
+  }, [token, setUserProfile])
 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        token,
         isLoggedIn,
         login: loginHandler,
         logout: logoutHandler

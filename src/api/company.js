@@ -1,8 +1,7 @@
 import API from './axios'
 
-export const createCompany = async (data, jwt) => {
+export const createCompany = async (data) => {
   try {
-    API.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
     const response = await API.post('/companies', { data })
     const { id } = response.data.data
     return id
