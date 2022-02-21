@@ -18,6 +18,13 @@ export const AuthContextProvider = (props) => {
     setToken('')
   }
 
+  const checkToken = () => {
+    const localStorageToken = localStorage.getItem('token')
+    if (token !== localStorageToken) {
+      setToken('')
+    }
+  }
+
   useEffect(() => {
     try {
       const existingToken = localStorage.getItem('token')
@@ -45,7 +52,8 @@ export const AuthContextProvider = (props) => {
         token,
         isLoggedIn,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
+        checkToken
       }}>
       {props.children}
     </AuthContext.Provider>
