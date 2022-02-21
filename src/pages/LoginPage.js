@@ -4,7 +4,6 @@ import FormInput from '../components/UI/FormInput'
 import styles from '../styles/LoginPage.module.css'
 import { Link as ReactLink, useNavigate } from 'react-router-dom'
 import { loginUser } from '../api/auth'
-import { darken } from '@chakra-ui/theme-tools'
 import { useAuthContext } from '../hooks/auth-context'
 import FormWrapper from '../components/UI/FormWrapper'
 
@@ -61,13 +60,7 @@ const LoginPage = () => {
             Don&apos;t have an account?
           </Link>
 
-          <Button
-            transition="0.3s"
-            isLoading={loading}
-            bgColor="#f56a68"
-            type="submit"
-            color="white"
-            _hover={{ bgColor: darken('#f56a68', 5), px: '2rem' }}>
+          <Button isLoading={loading} variant="submit" type="submit">
             Submit
           </Button>
         </Flex>
