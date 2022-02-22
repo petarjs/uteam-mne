@@ -3,11 +3,13 @@ import { Box, Text, Input, Button, Flex, VStack } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { updateProfile, uploadProfileImage } from '../../api/profile'
 import MyProfileCardLayout from '../Layout/MyProfileCardLayout'
+import { useProfileContext } from '../../hooks/profile-context'
 
 const BasicInfo = ({ profile }) => {
   const [loading, setLoading] = useState(false)
   const { register, handleSubmit } = useForm()
   const [error, setError] = useState(false)
+  const { updateUserData } = useProfileContext()
 
   const onSubmit = async (data) => {
     setLoading(true)
@@ -24,6 +26,7 @@ const BasicInfo = ({ profile }) => {
           name: data.name
         })
       }
+      await updateUserData()
       setLoading(false)
     } catch (e) {
       setError(e.message)
