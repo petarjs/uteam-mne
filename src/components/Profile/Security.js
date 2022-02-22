@@ -9,10 +9,13 @@ const Security = ({ user }) => {
   const [error, setError] = useState()
   const { register, handleSubmit } = useForm()
   const [loading, setLoading] = useState(false)
+  const [flag, setFlag] = useState(false)
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
     setLoading(true)
-    console.log('uslo')
+    setError('')
+    setFlag(false)
+
     try {
       const verifiedUser = await loginUser({
         identifier: user.attributes.email,
@@ -20,9 +23,10 @@ const Security = ({ user }) => {
       })
 
       if (verifiedUser.user.id === user.id) {
-        const res = await updateUserPassword(verifiedUser.user.id, data.newPassword)
-        console.log(res)
+        await updateUserPassword(verifiedUser.user.id, data.newPassword)
         setLoading(false)
+        setFlag(true)
+        e.target.reset()
       }
     } catch (e) {
       setError(e.message)
@@ -57,7 +61,10 @@ const Security = ({ user }) => {
               autoComplete="new-password"
               {...register('newPassword')}></Input>
           </VStack>
-          <Box color="#f56a68">{error}</Box>
+          <Box>
+            {flag && <Box color="#7FFF00">Account password has been changed successfully!</Box>}
+            <Box color="#f56a68">{error}</Box>
+          </Box>
           <Button variant="submit" alignSelf="self-end" isLoading={loading} type="submit">
             Save
           </Button>
