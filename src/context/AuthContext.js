@@ -5,7 +5,7 @@ import { getCurrentUser } from '../api/auth'
 const AuthContext = React.createContext(undefined)
 
 export const AuthContextProvider = (props) => {
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState(null)
   const { setUserProfile } = useProfileContext()
 
   const isLoggedIn = !!token
@@ -18,18 +18,13 @@ export const AuthContextProvider = (props) => {
     setToken('')
   }
 
-  const checkToken = () => {
-    const localStorageToken = localStorage.getItem('token')
-    if (token !== localStorageToken) {
-      setToken('')
-    }
-  }
-
   useEffect(() => {
     try {
       const existingToken = localStorage.getItem('token')
       if (existingToken) {
         setToken(existingToken)
+      } else {
+        setToken('')
       }
     } catch {
       console.log()
@@ -52,8 +47,7 @@ export const AuthContextProvider = (props) => {
         token,
         isLoggedIn,
         login: loginHandler,
-        logout: logoutHandler,
-        checkToken
+        logout: logoutHandler
       }}>
       {props.children}
     </AuthContext.Provider>

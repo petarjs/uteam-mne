@@ -7,7 +7,7 @@ const DesktopSidebar = ({ display }) => {
     <Flex
       flexDirection="column"
       padding="1.5rem"
-      height="calc(100vh - 6rem)"
+      height="calc(100vh - 4.4rem)"
       borderRadius="0.4rem"
       gap="0.3rem"
       width="16rem"
