@@ -1,4 +1,4 @@
-import { mode, darken, whiten } from '@chakra-ui/theme-tools'
+import { darken } from '@chakra-ui/theme-tools'
 
 export const buttonStyles = {
   baseStyle: {
@@ -16,14 +16,12 @@ export const buttonStyles = {
   },
   sizes: {},
   variants: {
-    primary: (props) => ({
-      bg: 'primary',
+    submit: {
+      bgColor: '#f56a68',
+      transition: '0.3s',
       color: 'white',
-      _hover: {
-        bg: mode(darken('primary', 20), whiten('primary', 20))(props)
-      },
-      _focus: { boxShadow: 'none' }
-    })
+      _hover: { bgColor: darken('#f56a68', 5), px: '2rem' }
+    }
   },
   defaultProps: {}
 }

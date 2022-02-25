@@ -7,9 +7,7 @@ export const getProfileData = async (userId) => {
       ['populate', '*']
     ])
     const response = await API.get(`/profiles`, { params })
-    const id = response.data.data[0].id
-    const name = response.data.data[0].attributes.name
-    return { id, name }
+    return response.data.data[0]
   } catch (ex) {
     throw Error(ex?.response?.data?.error?.message ?? 'Unknown error')
   }
@@ -32,6 +30,15 @@ export const uploadProfileImage = async (img) => {
     const response = await API.post('/upload', fd)
     const imageId = response.data[0].id
     return imageId
+  } catch (ex) {
+    throw Error(ex?.response?.data?.error?.message ?? 'Unknown error')
+  }
+}
+
+export const updateProfile = async (id, data) => {
+  try {
+    const response = await API.put(`/profiles/${id}`, { data })
+    return response
   } catch (ex) {
     throw Error(ex?.response?.data?.error?.message ?? 'Unknown error')
   }

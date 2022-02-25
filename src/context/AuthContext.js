@@ -5,7 +5,7 @@ import { getCurrentUser } from '../api/auth'
 const AuthContext = React.createContext(undefined)
 
 export const AuthContextProvider = (props) => {
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState(null)
   const { setUserProfile } = useProfileContext()
 
   const isLoggedIn = !!token
@@ -23,6 +23,8 @@ export const AuthContextProvider = (props) => {
       const existingToken = localStorage.getItem('token')
       if (existingToken) {
         setToken(existingToken)
+      } else {
+        setToken('')
       }
     } catch {
       console.log()

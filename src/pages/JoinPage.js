@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Flex, Button, Box, Link } from '@chakra-ui/react'
+import { Flex, Button, Box, Link, Input, VStack, Text } from '@chakra-ui/react'
 import { Link as ReactLink, useNavigate } from 'react-router-dom'
 import FormInput from '../components/UI/FormInput'
-import { darken } from '@chakra-ui/theme-tools'
 import styles from '../styles/LoginPage.module.css'
 import FormWrapper from '../components/UI/FormWrapper'
 import { useForm } from 'react-hook-form'
@@ -77,15 +76,20 @@ const RegisterPage = () => {
           autoComplete="current-password"
           register={register}
         />
-        <FormInput
-          name="profileImg"
-          type="file"
-          placeholder="Upload file"
-          label="Profie Photo"
-          required={true}
-          register={register}
-          accept="image/*"
-        />
+        <VStack>
+          <Text alignSelf="self-start">Profile Photo</Text>
+          <Input
+            marginTop="0 !important"
+            name="profileImg"
+            type="file"
+            placeholder="Upload file"
+            required={true}
+            {...register('profileImg')}
+            pt="0.2rem"
+            bgColor="white"
+            accept="image/*"
+          />
+        </VStack>
 
         <Box color="#f56a68">{errorRegister}</Box>
         <Flex justifyContent="space-between" alignItems="center">
@@ -93,13 +97,7 @@ const RegisterPage = () => {
             Already have an account?
           </Link>
 
-          <Button
-            transition="0.3s"
-            isLoading={loading}
-            bgColor="#f56a68"
-            type="submit"
-            color="white"
-            _hover={{ bgColor: darken('#f56a68', 5), px: '2rem' }}>
+          <Button isLoading={loading} type="submit" variant="submit">
             Register
           </Button>
         </Flex>

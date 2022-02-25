@@ -11,7 +11,7 @@ const FormWrapper = (props) => {
       width="100%"
       bgColor="#2f3437"
       borderRadius="0.5rem"
-      minHeight="calc(100vh - 6rem)"
+      minHeight="calc(100vh - 4.4rem)"
       padding="2rem 0.8rem"
       boxShadow="md">
       <Heading as="h2" color="white">
