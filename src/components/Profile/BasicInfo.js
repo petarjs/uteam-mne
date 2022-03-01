@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Box, Text, Input, Button, Flex, VStack } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
-import { updateProfile, uploadProfileImage } from '../../api/profile'
+import { updateProfile } from '../../api/profile'
+import { uploadImage } from '../../api/uploadImage'
 import MyProfileCardLayout from '../Layout/MyProfileCardLayout'
 import { useProfileContext } from '../../hooks/profile-context'
 
@@ -16,7 +17,7 @@ const BasicInfo = ({ profile }) => {
     setError('')
     try {
       if (data.profileImg[0]) {
-        const photoId = await uploadProfileImage(data.profileImg[0])
+        const photoId = await uploadImage(data.profileImg[0])
         await updateProfile(profile.id, {
           name: data.name,
           profilePhoto: photoId

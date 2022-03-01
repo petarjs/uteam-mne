@@ -5,7 +5,8 @@ import FormInput from '../components/UI/FormInput'
 import styles from '../styles/LoginPage.module.css'
 import FormWrapper from '../components/UI/FormWrapper'
 import { useForm } from 'react-hook-form'
-import { createProfile, uploadProfileImage } from '../api/profile'
+import { createProfile } from '../api/profile'
+import { uploadImage } from '../api/uploadImage'
 import { createUser } from '../api/auth'
 import { createCompany } from '../api/company'
 import { useAuthContext } from '../hooks/auth-context'
@@ -28,7 +29,7 @@ const RegisterPage = () => {
       localStorage.setItem('token', user.jwt)
 
       const companyId = await createCompany({ name: `${data.name}'s company` }, user.jwt)
-      const photoId = await uploadProfileImage(data.profileImg[0])
+      const photoId = await uploadImage(data.profileImg[0])
 
       await createProfile({
         status: 'pending',

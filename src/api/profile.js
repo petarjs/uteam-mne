@@ -23,18 +23,6 @@ export const createProfile = async (data) => {
   }
 }
 
-export const uploadProfileImage = async (img) => {
-  try {
-    const fd = new FormData()
-    fd.append('files', img)
-    const response = await API.post('/upload', fd)
-    const imageId = response.data[0].id
-    return imageId
-  } catch (ex) {
-    throw Error(ex?.response?.data?.error?.message ?? 'Unknown error')
-  }
-}
-
 export const updateProfile = async (id, data) => {
   try {
     const response = await API.put(`/profiles/${id}`, { data })
