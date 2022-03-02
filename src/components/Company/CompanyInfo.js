@@ -3,6 +3,7 @@ import { Flex, VStack, Input, Text, Box, Button } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { uploadImage } from '../../api/uploadImage'
 import { updateCompany } from '../../api/company'
+import { useProfileContext } from '../../hooks/profile-context'
 
 const CompanyInfo = ({ company }) => {
   const { handleSubmit, register } = useForm({
@@ -11,6 +12,7 @@ const CompanyInfo = ({ company }) => {
     }
   })
 
+  const { updateUserData } = useProfileContext()
   const [error, setError] = useState()
   const [loading, setLoading] = useState()
   const [flag, setFlag] = useState()
@@ -34,6 +36,7 @@ const CompanyInfo = ({ company }) => {
       }
       setFlag(true)
       setLoading(false)
+      updateUserData()
     } catch (error) {
       setError(error.message)
       setLoading(false)

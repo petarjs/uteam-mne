@@ -26,7 +26,7 @@ const Interceptors = () => {
         logout()
         navigate('/login')
       }
-      throw new Error(err)
+      return Promise.reject(err)
     })
     return () => {
       API.interceptors.request.eject(interceptorId.current)

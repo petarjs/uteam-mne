@@ -2,19 +2,18 @@ import React, { useState } from 'react'
 import PageLayout from '../components/Layout/PageLayout'
 import CompanyInfo from '../components/Company/CompanyInfo'
 import { useEffect } from 'react'
-import { getCurrentUser } from '../api/auth'
-import { getProfileData } from '../api/profile'
+
+import { useProfileContext } from '../hooks/profile-context'
 
 const CompanyPage = () => {
   const [company, setCompany] = useState()
+  const { userProfile } = useProfileContext()
 
   useEffect(() => {
-    ;(async () => {
-      const user = await getCurrentUser()
-      const profileData = await getProfileData(user.id)
-      setCompany(profileData.attributes.company.data)
-    })()
-  }, [])
+    if (userProfile) {
+      setCompany(userProfile.attributes.company.data)
+    }
+  }, [userProfile])
 
   return (
     <PageLayout title="Company Info">{company && <CompanyInfo company={company} />}</PageLayout>
