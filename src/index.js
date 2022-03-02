@@ -7,6 +7,7 @@ import { theme } from './theme/theme'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/AuthContext'
 import { ProfileContextProvider } from './context/ProfileContext'
+import Interceptors from './api/Interceptors'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.render(
       <AuthContextProvider>
         <ChakraProvider theme={theme}>
           <BrowserRouter>
+            <Interceptors />
             <App />
           </BrowserRouter>
         </ChakraProvider>

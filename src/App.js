@@ -53,7 +53,7 @@ function App() {
             }
           />
           <Route
-            path="questions"
+            path="questions/*"
             element={
               <ProtectedRoute>
                 <QuestionsPage />

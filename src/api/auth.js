@@ -33,7 +33,7 @@ export const getCurrentUser = async () => {
 export const updateUserPassword = async (id, data) => {
   try {
     const response = await API.put(`/users/${id}`, { password: data })
-    return response
+    return response.status
   } catch (ex) {
     throw Error(ex?.response?.data?.error?.message ?? 'Unknown error')
   }
